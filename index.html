@@ -288,44 +288,60 @@
           <span>Light</span>
         </div>
       </div>
-      <!-- Add instructions about interactive elements -->
-      <!-- <p class="interaction-hint">
-        <i class="hint-icon">💡</i> Click the switches above to toggle on/off (or press Tab to focus and Space to toggle).
-      </p>
-      <p class="interaction-hint">
-        <i class="hint-icon">⌨️</i> Keyboard users: Use arrow keys to navigate between operations when one is focused.
-      </p> -->
 
-      <!-- Status Display -->
-      <div class="status">
-        <h2>Current State:</h2>
-        <p>Operation: <strong id="currentOperation">AND</strong></p>
-        <p>Switch A: <strong id="switchAStatus">Down (False)</strong></p>
-        <p>Switch B: <strong id="switchBStatus">Up (True)</strong></p>
-        <p>Result (Light): <strong id="lightStatus">OFF (False)</strong></p>
-        <p>
-          <em>Formula: <span id="logicFormula">Light = A AND B</span></em>
-        </p>
-        <!-- Added Contextual Explanation -->
-        <p>
-          <em
-            >Context:
-            <span id="contextualExplanation"
-              >Output is True only when BOTH A AND B are True.</span
-            ></em
-          >
-        </p>
-      </div>
+      <!-- Wrap status and truth table in the new container -->
+      <div class="status-and-truth-table-container">
+        <!-- Status Display -->
+        <div class="status">
+          <h2>Current State:</h2>
+          <p>Operation: <strong id="currentOperation">AND</strong></p>
+          <p>Switch A: <strong id="switchAStatus">Down (False)</strong></p>
+          <p>Switch B: <strong id="switchBStatus">Up (True)</strong></p>
+          <p>Result (Light): <strong id="lightStatus">OFF (False)</strong></p>
+          <p>
+            <em>Formula: <span id="logicFormula">Light = A AND B</span></em>
+          </p>
+          <!-- Added Contextual Explanation -->
+          <p>
+            <em
+              >Context:
+              <span id="contextualExplanation"
+                >Output is True only when BOTH A AND B are True.</span
+              ></em
+            >
+          </p>
 
-      <!-- Educational Enhancements -->
-      <div class="educational-section">
-        <!-- Truth table section -->
+          <!-- Binary Example Section -->
+          <div class="binary-example">
+            <h4>Binary Example:</h4>
+            <div class="binary-operation">
+              <code
+                ><span id="binaryA">0</span>
+                <span id="binaryOperator">&amp;</span>
+                <span id="binaryB">1</span> =
+                <span id="binaryResult">0</span></code
+              >
+            </div>
+            <p class="binary-explanation">
+              <small id="binaryExplanation"
+                >In binary, AND returns 1 only if both bits are 1.</small
+              >
+            </p>
+          </div>
+        </div>
+
+        <!-- Truth table section (moved from educational-section) -->
         <div class="truth-table-area">
           <h3>Truth Table <small>(Click any row to set switches)</small></h3>
           <table id="truthTable">
             <!-- JS will populate this -->
           </table>
         </div>
+      </div>
+
+      <!-- Educational Enhancements - now without the truth table -->
+      <div class="educational-section">
+        <!-- Other educational content goes here if any -->
       </div>
 
       <!-- Code Examples in full-width container -->
@@ -371,7 +387,6 @@
           </div>
         </div>
       </div>
-
 
       <footer class="footer">
         <p>

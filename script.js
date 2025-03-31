@@ -58,12 +58,21 @@ let quizQuestions = [];
 
 // --- Constants for Auto Demo ---
 const AUTO_DEMO_INTERVAL = 2000; // milliseconds
-const AUTO_DEMO_OPERATIONS = ['AND', 'OR', 'XOR', 'NAND', 'NOR', 'XNOR', 'NOTA', 'NOTB'];
+const AUTO_DEMO_OPERATIONS = [
+  "AND",
+  "OR",
+  "XOR",
+  "NAND",
+  "NOR",
+  "XNOR",
+  "NOTA",
+  "NOTB",
+];
 const AUTO_DEMO_STATES = [
   { a: false, b: false },
   { a: false, b: true },
   { a: true, b: false },
-  { a: true, b: true }
+  { a: true, b: true },
 ];
 
 // --- Constants ---
@@ -173,6 +182,78 @@ function updateStatusDisplay(lightIsOn) {
   lightStatusSpan.textContent = lightIsOn ? "ON (True)" : "OFF (False)";
   logicFormulaSpan.textContent = operationInfo.formula;
   contextualExplanationSpan.textContent = operationInfo.contextualExplanation;
+
+  // Update the binary example
+  updateBinaryExample();
+}
+
+// Add this new function to update the binary example
+function updateBinaryExample() {
+  const binaryA = document.getElementById("binaryA");
+  const binaryB = document.getElementById("binaryB");
+  const binaryOperator = document.getElementById("binaryOperator");
+  const binaryResult = document.getElementById("binaryResult");
+  const binaryExplanation = document.getElementById("binaryExplanation");
+
+  // Set binary values based on switch states
+  const a = isSwitchAUp ? 1 : 0;
+  const b = isSwitchBUp ? 1 : 0;
+
+  // Update binary values
+  binaryA.textContent = a;
+  binaryB.textContent = b;
+
+  // Set operator symbol and result based on current operation
+  let operator = "&";
+  let result = 0;
+  let explanation = "In binary, AND returns 1 only if both bits are 1.";
+
+  switch (currentOperation) {
+    case "AND":
+      operator = "&";
+      result = a & b;
+      explanation = "In binary, AND returns 1 only if both bits are 1.";
+      break;
+    case "OR":
+      operator = "|";
+      result = a | b;
+      explanation = "In binary, OR returns 1 if either bit is 1.";
+      break;
+    case "XOR":
+      operator = "^";
+      result = a ^ b;
+      explanation = "In binary, XOR returns 1 if the bits are different.";
+      break;
+    case "NAND":
+      operator = "~&";
+      result = (a & b) === 0 ? 1 : 0;
+      explanation = "In binary, NAND is the inverse of AND.";
+      break;
+    case "NOR":
+      operator = "~|";
+      result = (a | b) === 0 ? 1 : 0;
+      explanation = "In binary, NOR is the inverse of OR.";
+      break;
+    case "XNOR":
+      operator = "~^";
+      result = a === b ? 1 : 0;
+      explanation = "In binary, XNOR returns 1 if the bits are the same.";
+      break;
+    case "NOTA":
+      operator = "~";
+      result = a === 0 ? 1 : 0;
+      explanation = "In binary, NOT inverts the bit (0→1, 1→0).";
+      break;
+    case "NOTB":
+      operator = "~";
+      result = b === 0 ? 1 : 0;
+      explanation = "In binary, NOT inverts the bit (0→1, 1→0).";
+      break;
+  }
+
+  binaryOperator.textContent = operator;
+  binaryResult.textContent = result;
+  binaryExplanation.textContent = explanation;
 }
 
 function generateTruthTable() {
@@ -301,7 +382,9 @@ public class BooleanLogic {
         boolean switchB = ${isSwitchBUp ? "true" : "false"};
         
         boolean result = switchA && switchB;
-        System.out.println("Result: " + result); // ${isSwitchAUp && isSwitchBUp}
+        System.out.println("Result: " + result); // ${
+          isSwitchAUp && isSwitchBUp
+        }
     }
 }`,
       ruby: `# Ruby AND operator (&&)
@@ -353,7 +436,7 @@ fn main() {
 // In a function:
 fn logical_and(a: bool, b: bool) -> bool {
     a && b
-}`
+}`,
     },
 
     OR: {
@@ -396,7 +479,9 @@ public class BooleanLogic {
         boolean switchB = ${isSwitchBUp ? "true" : "false"};
         
         boolean result = switchA || switchB;
-        System.out.println("Result: " + result); // ${isSwitchAUp || isSwitchBUp}
+        System.out.println("Result: " + result); // ${
+          isSwitchAUp || isSwitchBUp
+        }
     }
 }`,
       ruby: `# Ruby OR operator (||)
@@ -448,7 +533,7 @@ fn main() {
 // In a function:
 fn logical_or(a: bool, b: bool) -> bool {
     a || b
-}`
+}`,
     },
 
     XOR: {
@@ -494,7 +579,9 @@ public class BooleanLogic {
         
         // In Java, the ^ operator is the XOR operator for booleans
         boolean result = switchA ^ switchB;
-        System.out.println("Result: " + result); // ${isSwitchAUp !== isSwitchBUp}
+        System.out.println("Result: " + result); // ${
+          isSwitchAUp !== isSwitchBUp
+        }
     }
 }`,
       ruby: `# Ruby XOR operation
@@ -550,7 +637,7 @@ fn main() {
 // In a function:
 fn logical_xor(a: bool, b: bool) -> bool {
     a != b
-}`
+}`,
     },
 
     NAND: {
@@ -572,7 +659,7 @@ print(result) # ${!(isSwitchAUp && isSwitchBUp) ? "True" : "False"}
 
 # In a function:
 def logical_nand(a, b):
-    return not (a and b)`,
+    return not (a && b)`,
       cpp: `// C++ NAND operator
 #include <iostream>
 using namespace std;
@@ -647,7 +734,7 @@ fn main() {
 // In a function:
 fn logical_nand(a: bool, b: bool) -> bool {
     !(a && b)
-}`
+}`,
     },
 
     NOR: {
@@ -669,7 +756,7 @@ print(result) # ${!(isSwitchAUp || isSwitchBUp) ? "True" : "False"}
 
 # In a function:
 def logical_nor(a, b):
-    return not (a or b)`,
+    return not (a || b)`,
       cpp: `// C++ NOR operator
 #include <iostream>
 using namespace std;
@@ -744,7 +831,7 @@ fn main() {
 // In a function:
 fn logical_nor(a: bool, b: bool) -> bool {
     !(a || b)
-}`
+}`,
     },
 
     XNOR: {
@@ -841,7 +928,7 @@ fn main() {
 // In a function:
 fn logical_xnor(a: bool, b: bool) -> bool {
     a == b
-}`
+}`,
     },
 
     NOTA: {
@@ -928,7 +1015,7 @@ fn main() {
 // In a function:
 fn logical_not_a(a: bool) -> bool {
     !a
-}`
+}`,
     },
 
     NOTB: {
@@ -1015,8 +1102,8 @@ fn main() {
 // In a function:
 fn logical_not_b(b: bool) -> bool {
     !b
-}`
-    }
+}`,
+    },
   };
 
   // Add a safe check before trying to access properties
@@ -1032,10 +1119,13 @@ fn logical_not_b(b: bool) -> bool {
   pythonCodeElement.textContent = examples.python;
   cppCodeElement.textContent = examples.cpp;
   javaCodeElement.textContent = examples.java;
-  rubyCodeElement.textContent = examples.ruby || '# Ruby code example not available';
-  swiftCodeElement.textContent = examples.swift || '// Swift code example not available';
-  goCodeElement.textContent = examples.go || '// Go code example not available';
-  rustCodeElement.textContent = examples.rust || '// Rust code example not available';
+  rubyCodeElement.textContent =
+    examples.ruby || "# Ruby code example not available";
+  swiftCodeElement.textContent =
+    examples.swift || "// Swift code example not available";
+  goCodeElement.textContent = examples.go || "// Go code example not available";
+  rustCodeElement.textContent =
+    examples.rust || "// Rust code example not available";
 
   // Highlight the code blocks
   hljs.highlightElement(jsCodeElement);
@@ -1065,19 +1155,19 @@ function setupCodeTabs() {
   javaTabBtn.addEventListener("click", () => {
     setActiveTab("java");
   });
-  
+
   rubyTabBtn.addEventListener("click", () => {
     setActiveTab("ruby");
   });
-  
+
   swiftTabBtn.addEventListener("click", () => {
     setActiveTab("swift");
   });
-  
+
   goTabBtn.addEventListener("click", () => {
     setActiveTab("go");
   });
-  
+
   rustTabBtn.addEventListener("click", () => {
     setActiveTab("rust");
   });
@@ -1085,7 +1175,16 @@ function setupCodeTabs() {
 
 function setActiveTab(language) {
   // Remove active class from all tabs
-  [jsTabBtn, pythonTabBtn, cppTabBtn, javaTabBtn, rubyTabBtn, swiftTabBtn, goTabBtn, rustTabBtn].forEach((btn) => {
+  [
+    jsTabBtn,
+    pythonTabBtn,
+    cppTabBtn,
+    javaTabBtn,
+    rubyTabBtn,
+    swiftTabBtn,
+    goTabBtn,
+    rustTabBtn,
+  ].forEach((btn) => {
     btn.classList.remove("active");
   });
 
@@ -1114,7 +1213,7 @@ function hideLoading() {
 // Combined update function
 function updateAll() {
   showLoading();
-  
+
   // Small timeout to ensure UI updates happen smoothly
   setTimeout(() => {
     const lightResult = calculateResult(
@@ -1126,9 +1225,9 @@ function updateAll() {
     updateStatusDisplay(lightResult);
     generateTruthTable();
     updateOperationDescription();
-    
+
     updateCodeExamples();
-    
+
     // Hide loading after a slight delay for better visual effect
     setTimeout(hideLoading, 300);
   }, 10);
@@ -1154,24 +1253,24 @@ function setupKeyboardSupport() {
   document.addEventListener("keydown", (e) => {
     // If auto demo is running, don't process keyboard events
     if (isAutoDemoRunning) return;
-    
+
     // Toggle switches with number keys
     if (e.key === "1") {
       handleSwitchToggle("A");
     } else if (e.key === "2") {
       handleSwitchToggle("B");
     }
-    
+
     // Toggle truth table mode with 't'
     if (e.key === "t" && e.target === document.body) {
       toggleTruthTableMode();
     }
-    
+
     // Toggle auto demo with 'a'
     if (e.key === "a" && e.target === document.body) {
       toggleAutoDemo();
     }
-    
+
     // Radio button navigation
     if (document.activeElement.getAttribute("name") === "operation") {
       const operations = Array.from(operationRadios);
@@ -1198,42 +1297,46 @@ function setupKeyboardSupport() {
 // --- Truth Table Mode Functions ---
 function toggleTruthTableMode() {
   isInTruthTableMode = !isInTruthTableMode;
-  
+
   if (truthTableModeToggle) {
     truthTableModeToggle.checked = isInTruthTableMode;
   }
-  
+
   // Save preference
   localStorage.setItem("booleanDemoTruthTableMode", isInTruthTableMode);
-  
+
   // Update UI for truth table mode
   document.body.classList.toggle("truth-table-mode", isInTruthTableMode);
-  
+
   // Update text on toggle button if it exists
   const toggleLabel = document.querySelector(".truth-table-toggle span");
   if (toggleLabel) {
-    toggleLabel.textContent = isInTruthTableMode ? "Exit Truth Table Mode" : "Truth Table Mode";
+    toggleLabel.textContent = isInTruthTableMode
+      ? "Exit Truth Table Mode"
+      : "Truth Table Mode";
   }
 }
 
 // --- Auto Demo Functions ---
 function toggleAutoDemo() {
   isAutoDemoRunning = !isAutoDemoRunning;
-  
+
   if (autoDemoToggle) {
     autoDemoToggle.checked = isAutoDemoRunning;
   }
-  
+
   if (isAutoDemoRunning) {
     startAutoDemo();
   } else {
     stopAutoDemo();
   }
-  
+
   // Update text on toggle button if it exists
   const toggleLabel = document.querySelector(".auto-demo-toggle span");
   if (toggleLabel) {
-    toggleLabel.textContent = isAutoDemoRunning ? "Stop Auto Demo" : "Start Auto Demo";
+    toggleLabel.textContent = isAutoDemoRunning
+      ? "Stop Auto Demo"
+      : "Start Auto Demo";
   }
 }
 
@@ -1242,28 +1345,29 @@ function startAutoDemo() {
   if (autoDemoInterval) {
     clearInterval(autoDemoInterval);
   }
-  
+
   // Set initial state
   autoDemoOperationIndex = 0;
   autoDemoStateIndex = 0;
-  
+
   // Update to first demo state
   updateToDemoState();
-  
+
   // Start interval
   autoDemoInterval = setInterval(() => {
     // Move to next state
     autoDemoStateIndex = (autoDemoStateIndex + 1) % AUTO_DEMO_STATES.length;
-    
+
     // If we've gone through all states for this operation, move to next operation
     if (autoDemoStateIndex === 0) {
-      autoDemoOperationIndex = (autoDemoOperationIndex + 1) % AUTO_DEMO_OPERATIONS.length;
+      autoDemoOperationIndex =
+        (autoDemoOperationIndex + 1) % AUTO_DEMO_OPERATIONS.length;
     }
-    
+
     // Update UI
     updateToDemoState();
   }, AUTO_DEMO_INTERVAL);
-  
+
   // Show indication that demo is running
   document.body.classList.add("demo-running");
 }
@@ -1273,7 +1377,7 @@ function stopAutoDemo() {
     clearInterval(autoDemoInterval);
     autoDemoInterval = null;
   }
-  
+
   // Remove indication that demo is running
   document.body.classList.remove("demo-running");
 }
@@ -1282,28 +1386,30 @@ function updateToDemoState() {
   // Get current operation and state
   const operation = AUTO_DEMO_OPERATIONS[autoDemoOperationIndex];
   const state = AUTO_DEMO_STATES[autoDemoStateIndex];
-  
+
   // Set operation
   currentOperation = operation;
-  const operationRadio = document.querySelector(`input[name="operation"][value="${operation}"]`);
+  const operationRadio = document.querySelector(
+    `input[name="operation"][value="${operation}"]`
+  );
   if (operationRadio) {
     operationRadio.checked = true;
   }
-  
+
   // Set switch states
   isSwitchAUp = state.a;
   isSwitchBUp = state.b;
-  
+
   // Update switch visuals
   switchAElement.classList.toggle("up", isSwitchAUp);
   switchAElement.classList.toggle("down", !isSwitchAUp);
   switchBElement.classList.toggle("up", isSwitchBUp);
   switchBElement.classList.toggle("down", !isSwitchBUp);
-  
+
   // Update ARIA states
   switchAElement.setAttribute("aria-pressed", isSwitchAUp ? "true" : "false");
   switchBElement.setAttribute("aria-pressed", isSwitchBUp ? "true" : "false");
-  
+
   // Update rest of UI
   updateAll();
 }
@@ -1339,41 +1445,44 @@ function handleOperationChange(event) {
 // --- Copy Code Button ---
 function setupCopyCodeButtons() {
   // Create copy buttons for each code block
-  document.querySelectorAll('.code-content pre').forEach((pre, index) => {
-    const codeBlock = pre.querySelector('code');
-    const language = codeBlock.id.replace('Code', '');
-    
+  document.querySelectorAll(".code-content pre").forEach((pre, index) => {
+    const codeBlock = pre.querySelector("code");
+    const language = codeBlock.id.replace("Code", "");
+
     // Create button
-    const copyButton = document.createElement('button');
-    copyButton.className = 'copy-button';
-    copyButton.setAttribute('aria-label', `Copy ${language} code to clipboard`);
+    const copyButton = document.createElement("button");
+    copyButton.className = "copy-button";
+    copyButton.setAttribute("aria-label", `Copy ${language} code to clipboard`);
     copyButton.innerHTML = '<span class="copy-icon">📋</span> Copy';
-    
+
     // Add to pre element
     pre.appendChild(copyButton);
-    
+
     // Add click handler
-    copyButton.addEventListener('click', () => {
+    copyButton.addEventListener("click", () => {
       const code = codeBlock.textContent;
-      navigator.clipboard.writeText(code).then(() => {
-        // Change button text temporarily
-        copyButton.innerHTML = '<span class="copy-icon">✅</span> Copied!';
-        copyButton.classList.add('copied');
-        
-        // Reset after 2 seconds
-        setTimeout(() => {
-          copyButton.innerHTML = '<span class="copy-icon">📋</span> Copy';
-          copyButton.classList.remove('copied');
-        }, 2000);
-      }).catch(err => {
-        console.error('Failed to copy: ', err);
-        copyButton.innerHTML = '<span class="copy-icon">❌</span> Error';
-        
-        // Reset after 2 seconds
-        setTimeout(() => {
-          copyButton.innerHTML = '<span class="copy-icon">📋</span> Copy';
-        }, 2000);
-      });
+      navigator.clipboard
+        .writeText(code)
+        .then(() => {
+          // Change button text temporarily
+          copyButton.innerHTML = '<span class="copy-icon">✅</span> Copied!';
+          copyButton.classList.add("copied");
+
+          // Reset after 2 seconds
+          setTimeout(() => {
+            copyButton.innerHTML = '<span class="copy-icon">📋</span> Copy';
+            copyButton.classList.remove("copied");
+          }, 2000);
+        })
+        .catch((err) => {
+          console.error("Failed to copy: ", err);
+          copyButton.innerHTML = '<span class="copy-icon">❌</span> Error';
+
+          // Reset after 2 seconds
+          setTimeout(() => {
+            copyButton.innerHTML = '<span class="copy-icon">📋</span> Copy';
+          }, 2000);
+        });
     });
   });
 }
@@ -1381,52 +1490,60 @@ function setupCopyCodeButtons() {
 // --- Create Mode Toggles UI ---
 function createModeToggles() {
   // Create container for mode toggles
-  const togglesContainer = document.createElement('div');
-  togglesContainer.className = 'mode-toggles';
-  togglesContainer.setAttribute('aria-label', 'Display mode options');
-  
+  const togglesContainer = document.createElement("div");
+  togglesContainer.className = "mode-toggles";
+  togglesContainer.setAttribute("aria-label", "Display mode options");
+
   // Create truth table mode toggle
-  const truthTableToggleLabel = document.createElement('label');
-  truthTableToggleLabel.className = 'mode-toggle truth-table-toggle';
-  
-  truthTableModeToggle = document.createElement('input');
-  truthTableModeToggle.type = 'checkbox';
+  const truthTableToggleLabel = document.createElement("label");
+  truthTableToggleLabel.className = "mode-toggle truth-table-toggle";
+
+  truthTableModeToggle = document.createElement("input");
+  truthTableModeToggle.type = "checkbox";
   truthTableModeToggle.checked = isInTruthTableMode;
-  truthTableModeToggle.addEventListener('change', () => {
+  truthTableModeToggle.addEventListener("change", () => {
     toggleTruthTableMode();
   });
-  
-  const truthTableToggleText = document.createElement('span');
-  truthTableToggleText.textContent = isInTruthTableMode ? 'Exit Truth Table Mode' : 'Truth Table Mode';
-  truthTableToggleText.setAttribute('title', 'Focus on truth table display (shortcut: t)');
-  
+
+  const truthTableToggleText = document.createElement("span");
+  truthTableToggleText.textContent = isInTruthTableMode
+    ? "Exit Truth Table Mode"
+    : "Truth Table Mode";
+  truthTableToggleText.setAttribute(
+    "title",
+    "Focus on truth table display (shortcut: t)"
+  );
+
   truthTableToggleLabel.appendChild(truthTableModeToggle);
   truthTableToggleLabel.appendChild(truthTableToggleText);
-  
+
   // Create auto demo toggle
-  const autoDemoToggleLabel = document.createElement('label');
-  autoDemoToggleLabel.className = 'mode-toggle auto-demo-toggle';
-  
-  autoDemoToggle = document.createElement('input');
-  autoDemoToggle.type = 'checkbox';
+  const autoDemoToggleLabel = document.createElement("label");
+  autoDemoToggleLabel.className = "mode-toggle auto-demo-toggle";
+
+  autoDemoToggle = document.createElement("input");
+  autoDemoToggle.type = "checkbox";
   autoDemoToggle.checked = isAutoDemoRunning;
-  autoDemoToggle.addEventListener('change', () => {
+  autoDemoToggle.addEventListener("change", () => {
     toggleAutoDemo();
   });
-  
-  const autoDemoToggleText = document.createElement('span');
-  autoDemoToggleText.textContent = 'Start Auto Demo';
-  autoDemoToggleText.setAttribute('title', 'Automatically cycle through operations and states (shortcut: a)');
-  
+
+  const autoDemoToggleText = document.createElement("span");
+  autoDemoToggleText.textContent = "Start Auto Demo";
+  autoDemoToggleText.setAttribute(
+    "title",
+    "Automatically cycle through operations and states (shortcut: a)"
+  );
+
   autoDemoToggleLabel.appendChild(autoDemoToggle);
   autoDemoToggleLabel.appendChild(autoDemoToggleText);
-  
+
   // Add toggles to container
   togglesContainer.appendChild(truthTableToggleLabel);
   togglesContainer.appendChild(autoDemoToggleLabel);
-  
+
   // Add to page - after the operation selection
-  const controlsSection = document.querySelector('.controls');
+  const controlsSection = document.querySelector(".controls");
   if (controlsSection) {
     controlsSection.after(togglesContainer);
   }
@@ -1444,8 +1561,8 @@ function enhanceLoadingAnimation() {
 // --- Initialization ---
 function initialize() {
   // Force dark mode for all users
-  document.body.classList.add('force-dark');
-  
+  document.body.classList.add("force-dark");
+
   // Update the year in the footer
   const currentYearSpan = document.getElementById("currentYear");
   if (currentYearSpan) {
@@ -1475,7 +1592,7 @@ function initialize() {
       `input[name="operation"][value="AND"]`
     ).checked = true;
   }
-  
+
   // Restore truth table mode preference
   const savedTruthTableMode = localStorage.getItem("booleanDemoTruthTableMode");
   if (savedTruthTableMode === "true") {
@@ -1486,13 +1603,16 @@ function initialize() {
   // Initialize ARIA states
   switchAElement.setAttribute("aria-pressed", "false");
   switchBElement.setAttribute("aria-pressed", "true");
-  
+
   // Add ARIA labels for better accessibility
-  document.querySelectorAll('.truth-table-area').forEach(table => {
-    table.setAttribute('role', 'region');
-    table.setAttribute('aria-label', 'Truth table showing all possible input combinations and results');
+  document.querySelectorAll(".truth-table-area").forEach((table) => {
+    table.setAttribute("role", "region");
+    table.setAttribute(
+      "aria-label",
+      "Truth table showing all possible input combinations and results"
+    );
   });
-  
+
   // Removed circuit diagram container code
 
   // Add event listeners
@@ -1507,13 +1627,13 @@ function initialize() {
 
   // Setup code tabs
   setupCodeTabs();
-  
+
   // Setup copy code buttons
   setupCopyCodeButtons();
-  
+
   // Create mode toggles
   createModeToggles();
-  
+
   // Enhance loading animation
   enhanceLoadingAnimation();
 

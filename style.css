@@ -279,53 +279,105 @@ p.app-summary {
     border: 1px solid #e0e7ed;
     text-align: left;
     margin: 0;
+    order: 1; /* Ensure it appears first (left side) */
 }
 
-.status-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.status-header h2 {
+/* Truth Table Styling */
+.truth-table-area {
+    flex: 1;
+    min-width: 300px;
+    background-color: #f1f5f9;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e0e7ed;
     margin: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    order: 2; /* Ensure it appears second (right side) */
 }
 
-.reset-button {
-    background-color: #f8fafc;
-    color: #475569;
-    border: 1px solid #cbd5e1;
-    border-radius: 20px;
-    padding: 6px 12px;
+/* Create the side-by-side container specifically for status and truth table */
+.status-and-truth-table-container {
     display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 0.9em;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 30px;
 }
 
-.reset-button:hover {
-    background-color: #e6f4ff;
-    color: #2979ff;
-    border-color: #2979ff;
+.status-and-truth-table-container .status,
+.status-and-truth-table-container .truth-table-area {
+    flex: 1;
+    min-width: 300px;
 }
 
-.reset-button:active {
-    transform: scale(0.95);
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .status-and-truth-table-container {
+        flex-direction: column;
+    }
+    
+    .status-and-truth-table-container .status,
+    .status-and-truth-table-container .truth-table-area {
+        width: 100%;
+        min-width: 100%;
+    }
 }
 
-.reset-icon {
-    font-size: 1.2em;
-    animation: spin 1s ease-in-out;
+/* Update Truth Table Mode to maintain side-by-side in this mode too */
+.truth-table-mode .status-and-truth-table-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 30px auto;
 }
 
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+.truth-table-mode .status-and-truth-table-container .status {
+    flex: 1;
+    min-width: 280px;
+    max-width: 400px; /* Limit width to maintain proportion */
+    order: 1; /* Keep status on the left */
 }
 
+.truth-table-mode .status-and-truth-table-container .truth-table-area {
+    flex: 2;
+    min-width: 500px;
+    transform: scale(1.05); /* Slightly enlarged but not too much */
+    transition: transform 0.3s ease;
+    order: 2; /* Keep truth table on the right */
+}
+
+/* Center container contents in truth table mode on smaller screens */
+@media (max-width: 992px) {
+    .truth-table-mode .status-and-truth-table-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .truth-table-mode .status-and-truth-table-container .status,
+    .truth-table-mode .status-and-truth-table-container .truth-table-area {
+        flex-basis: 100%;
+        min-width: 100%;
+        max-width: 700px; /* Allow more width on small screens when stacked */
+    }
+    
+    /* Don't scale up on small screens when stacked */
+    .truth-table-mode .status-and-truth-table-container .truth-table-area {
+        transform: none;
+    }
+}
+
+/* Truth Table Mode */
+.truth-table-mode .circuit {
+    display: none;
+}
+
+.truth-table-mode .description-area {
+    /* Specific styling for description in truth table mode */
+    max-width: 800px;
+    margin: 0 auto 30px auto;
+}
+
+/* Status Area */
 .status p {
     margin: 10px 0;
     font-size: 1.05em;
@@ -415,6 +467,123 @@ p.app-summary {
     margin-top: 5px;
 }
 
+/* Binary Example Styling */
+.binary-example {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8fafc;
+  border-radius: 6px;
+  border: 1px solid #e0e7ed;
+}
+
+.binary-example h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1em;
+  color: #334e68;
+}
+
+.binary-operation {
+  font-family: 'Courier New', monospace;
+  font-size: 1.4em;
+  font-weight: bold;
+  text-align: center;
+  margin: 15px 0;
+}
+
+.binary-operation code {
+  padding: 8px 16px;
+  background-color: #e6f4ff;
+  border-radius: 4px;
+  color: #1e3a8a;
+}
+
+.binary-operation #binaryA, 
+.binary-operation #binaryB {
+  color: #2979ff;
+}
+
+.binary-operation #binaryOperator {
+  color: #f59e0b;
+  margin: 0 8px;
+}
+
+.binary-operation #binaryResult {
+  color: #ef4444;
+}
+
+.binary-explanation {
+  text-align: center;
+  font-style: italic;
+  color: #64748b;
+  margin-bottom: 0;
+}
+
+/* Dark mode binary example styling */
+@media (prefers-color-scheme: dark) {
+  .binary-example {
+    background-color: #1e293b;
+    border-color: #334155;
+  }
+  
+  .binary-example h4 {
+    color: #e2e8f0;
+  }
+  
+  .binary-operation code {
+    background-color: #0f172a;
+    color: #93c5fd;
+  }
+  
+  .binary-operation #binaryA, 
+  .binary-operation #binaryB {
+    color: #60a5fa;
+  }
+  
+  .binary-operation #binaryOperator {
+    color: #fbbf24;
+  }
+  
+  .binary-operation #binaryResult {
+    color: #f87171;
+  }
+  
+  .binary-explanation {
+    color: #94a3b8;
+  }
+}
+
+/* Force dark theme binary example styling */
+body.force-dark .binary-example {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+body.force-dark .binary-example h4 {
+  color: #e2e8f0 !important;
+}
+
+body.force-dark .binary-operation code {
+  background-color: #0f172a !important;
+  color: #93c5fd !important;
+}
+
+body.force-dark .binary-operation #binaryA, 
+body.force-dark .binary-operation #binaryB {
+  color: #60a5fa !important;
+}
+
+body.force-dark .binary-operation #binaryOperator {
+  color: #fbbf24 !important;
+}
+
+body.force-dark .binary-operation #binaryResult {
+  color: #f87171 !important;
+}
+
+body.force-dark .binary-explanation {
+  color: #94a3b8 !important;
+}
 
 /* Description Area (General Explanation) */
 .description-area {
@@ -428,9 +597,7 @@ p.app-summary {
 
 /* Educational Section */
 .educational-section {
-    display: grid;
-    grid-template-columns: 1fr;
-    /* Changed to single column since we moved description area */
+    display: block; /* Override the grid display */
     gap: 30px;
     margin-top: 30px;
     padding-top: 20px;
@@ -467,16 +634,6 @@ p.app-summary {
 }
 
 /* Truth Table Styling */
-.truth-table-area {
-    flex: 1;
-    min-width: 300px;
-    background-color: #f1f5f9;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #e0e7ed;
-    margin: 0;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
 .truth-table-area table {
     width: 100%;
     border-collapse: collapse;
@@ -752,20 +909,14 @@ p.app-summary {
 /* Keyboard shortcuts hints removed */
 
 /* Truth Table Mode */
-.truth-table-mode .circuit,
-.truth-table-mode .description-area {
+.truth-table-mode .circuit {
   display: none;
 }
 
-.truth-table-mode .truth-table-area {
-  max-width: 600px;
-  margin: 30px auto;
-  transform: scale(1.2);
-  transition: transform 0.3s ease;
-}
-
-.truth-table-mode #truthTable {
-  font-size: 1.2em;
+.truth-table-mode .description-area {
+  /* Specific styling for description in truth table mode */
+  max-width: 800px;
+  margin: 0 auto 30px auto;
 }
 
 /* Auto Demo and Controls Styling */
