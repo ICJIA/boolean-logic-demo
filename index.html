@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enhanced Boolean Logic Demo</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Boolean Logic Demonstrator</h1>
+      <p>
+        Click the switches (A & B), select an operation, and observe the light,
+        truth table, and descriptions.
+      </p>
+
+      <!-- Operation Selection -->
+      <div class="controls">
+        <h2>Select Operation:</h2>
+        <div class="operation-grid">
+          <label><input type="radio" name="operation" value="AND" /> AND</label>
+          <label><input type="radio" name="operation" value="OR" /> OR</label>
+          <label><input type="radio" name="operation" value="XOR" /> XOR</label>
+          <label
+            ><input type="radio" name="operation" value="NAND" /> NAND</label
+          >
+          <label><input type="radio" name="operation" value="NOR" /> NOR</label>
+          <label
+            ><input type="radio" name="operation" value="XNOR" /> XNOR</label
+          >
+          <label
+            ><input type="radio" name="operation" value="NOTA" /> NOT A</label
+          >
+          <label
+            ><input type="radio" name="operation" value="NOTB" /> NOT B</label
+          >
+        </div>
+      </div>
+
+      <!-- Moved Operation Description up -->
+      <div class="description-area">
+        <h3>Operation Description</h3>
+        <p id="operationDescriptionText">
+          The AND operation returns True only if all of its inputs are True.
+          Think of it as requiring multiple conditions to be met simultaneously.
+        </p>
+      </div>
+
+      <!-- Switches and Light Bulb -->
+      <div class="circuit">
+        <div class="switch-area">
+          <div id="switchA" class="switch down">
+            <div class="handle"></div>
+            <span>A</span>
+          </div>
+          <div id="switchB" class="switch up">
+            <div class="handle"></div>
+            <span>B</span>
+          </div>
+        </div>
+
+        <div class="light-area">
+          <!-- SVG Light Bulb -->
+          <svg
+            id="lightBulbSVG"
+            viewBox="0 0 100 150"
+            width="80"
+            height="120"
+            class="light off"
+          >
+            <defs>
+              <radialGradient
+                id="glowGradient"
+                cx="50%"
+                cy="40%"
+                r="60%"
+                fx="50%"
+                fy="40%"
+              >
+                <stop
+                  offset="0%"
+                  style="stop-color: rgb(255, 255, 220); stop-opacity: 1"
+                />
+                <stop
+                  offset="100%"
+                  style="stop-color: rgb(255, 215, 0); stop-opacity: 1"
+                />
+              </radialGradient>
+            </defs>
+            <!-- Base -->
+            <rect
+              x="35"
+              y="100"
+              width="30"
+              height="30"
+              rx="5"
+              ry="5"
+              fill="#777"
+              stroke="#555"
+              stroke-width="2"
+            />
+            <rect x="40" y="105" width="20" height="5" fill="#999" />
+            <rect x="40" y="115" width="20" height="5" fill="#999" />
+            <!-- Glass Bulb -->
+            <path
+              id="bulbGlass"
+              d="M 50 0
+                             C 20 0, 10 30, 10 50
+                             C 10 80, 30 100, 50 100
+                             C 70 100, 90 80, 90 50
+                             C 90 30, 80 0, 50 0 Z"
+              fill="#444"
+              stroke="#666"
+              stroke-width="3"
+            />
+          </svg>
+          <span>Light</span>
+        </div>
+      </div>
+
+      <!-- Status Display -->
+      <div class="status">
+        <h2>Current State:</h2>
+        <p>Operation: <strong id="currentOperation">AND</strong></p>
+        <p>Switch A: <strong id="switchAStatus">Down (False)</strong></p>
+        <p>Switch B: <strong id="switchBStatus">Up (True)</strong></p>
+        <p>Result (Light): <strong id="lightStatus">OFF (False)</strong></p>
+        <p>
+          <em>Formula: <span id="logicFormula">Light = A AND B</span></em>
+        </p>
+        <!-- Added Contextual Explanation -->
+        <p>
+          <em
+            >Context:
+            <span id="contextualExplanation"
+              >Output is True only when BOTH A AND B are True.</span
+            ></em
+          >
+        </p>
+      </div>
+
+      <!-- Educational Enhancements -->
+      <div class="educational-section">
+        <!-- Description area has been moved up -->
+        <div class="truth-table-area">
+          <h3>Truth Table</h3>
+          <table id="truthTable">
+            <!-- JS will populate this -->
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- /container -->
+
+    <script src="script.js"></script>
+  </body>
+</html>
