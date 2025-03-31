@@ -20,7 +20,7 @@ body {
     border-radius: 12px;
     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
     text-align: center;
-    max-width: 700px;
+    max-width: 1024px; /* Increased from 700px to 1024px */
     width: 100%;
 }
 
@@ -51,6 +51,16 @@ p {
     color: #627d98;
     /* Softer grey */
     line-height: 1.6;
+}
+
+p.app-summary {
+    font-size: 1.1em;
+    margin-bottom: 1.5em;
+    color: #334e68;
+    font-weight: 500;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Controls */
@@ -111,7 +121,7 @@ p {
 
 .switch-area {
     flex-direction: row;
-    gap: 50px;
+    gap: 120px; /* Increased from 50px to 120px for better spacing in wider layout */
 }
 
 /* Enhanced Switch Style */
@@ -264,6 +274,26 @@ p {
     text-align: left;
 }
 
+/* Added multi-column layout for large screens */
+@media (min-width: 1024px) {
+    .code-and-quiz-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+    
+    .code-examples, .quiz-container {
+        margin-top: 0;
+    }
+}
+
+/* Responsive layout adjustments */
+@media (max-width: 1023px) {
+    .code-and-quiz-container > div {
+        margin-top: 30px;
+    }
+}
+
 /* Responsive layout for educational section */
 @media (max-width: 650px) {
     .educational-section {
@@ -314,4 +344,353 @@ p {
 
 .truth-table-area tr.current-row td:last-child {
     color: #8c5a01;
+}
+
+/* Circuit Diagram Styling */
+.circuit-diagram-container {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e0e7ed;
+}
+
+.circuit-diagram {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  position: relative;
+  margin-top: 15px;
+  overflow: visible;
+  width: 100%;
+}
+
+.circuit-element {
+  position: absolute;
+  font-weight: bold;
+  z-index: 2;
+}
+
+.circuit-line {
+  position: absolute;
+  background-color: #334e68;
+  height: 2px;
+  z-index: 1;
+}
+
+.circuit-gate {
+  width: 60px;
+  height: 60px;
+  background-color: #ffffff;
+  border: 2px solid #334e68;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 14px;
+  position: absolute;
+  z-index: 2;
+}
+
+/* Code Examples Styling */
+.code-examples-container {
+  margin-top: 30px;
+  width: 100%;
+}
+
+.code-examples {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e0e7ed;
+}
+
+.code-tabs {
+  display: flex;
+  background-color: #f1f5f9;
+  border-bottom: 1px solid #e0e7ed;
+  overflow-x: auto; /* Allow scrolling for many tabs */
+  -webkit-overflow-scrolling: touch;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.tab-btn.active {
+  background-color: #ffffff;
+  color: #334e68;
+  border-bottom: 3px solid #2979ff;
+}
+
+.code-content {
+  position: relative;
+  background-color: #f8fafc;
+}
+
+.code-content pre {
+  margin: 0;
+  padding: 0;
+  display: none; /* Hide all code blocks by default */
+}
+
+.code-content pre:first-of-type {
+  display: block; /* Show the first code block by default (JavaScript) */
+}
+
+.code-content pre code {
+  display: block; /* Always display the code inside the pre */
+  padding: 15px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-x: auto;
+  text-align: left;
+}
+
+/* Highlight.js overrides */
+.hljs {
+  background: transparent !important;
+  padding: 15px !important;
+}
+
+/* Footer styling */
+.footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #dce4ec;
+  text-align: center;
+  font-size: 0.9em;
+  color: #64748b;
+}
+
+.footer a {
+  color: #2979ff;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* Remove quiz related styles */
+.toast-message {
+  display: none;
+}
+
+/* Mobile Optimization - updated with better breakpoints */
+@media (max-width: 768px) {
+  .container {
+    padding: 25px 20px;
+  }
+  
+  .switch-area {
+    gap: 60px; /* Reduced gap on medium screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 20px 15px;
+  }
+  
+  .circuit {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .switch-area {
+    gap: 30px;
+  }
+  
+  .operation-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .status p {
+    font-size: 0.95em;
+  }
+  
+  h1 {
+    font-size: 1.8em;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #1a1f2c;
+  }
+  
+  .container {
+    background-color: #252d3e;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+  }
+  
+  h1, h2, h3 {
+    color: #e2e8f0;
+  }
+  
+  p {
+    color: #cbd5e1;
+  }
+  
+  p.app-summary {
+    color: #e0f2fe;
+  }
+  
+  .controls label {
+    color: #a3b9d0;
+  }
+  
+  .controls label:hover {
+    color: #f8fafc;
+  }
+  
+  .circuit {
+    background-color: #1e293b;
+    border-color: #334155;
+  }
+  
+  .status {
+    background-color: #1e293b;
+    border-color: #334155;
+  }
+  
+  .status p {
+    color: #94a3b8;
+  }
+  
+  .status strong {
+    color: #60a5fa;
+  }
+  
+  .description-area {
+    background-color: #1e293b;
+    border-color: #334155;
+  }
+  
+  .description-area p {
+    color: #93c5fd;
+  }
+  
+  .truth-table-area th {
+    background-color: #1e293b;
+    color: #e2e8f0;
+  }
+  
+  .truth-table-area td {
+    color: #cbd5e1;
+    border-color: #334155;
+  }
+  
+  .truth-table-area tr.current-row td {
+    background-color: #854d0e;
+    color: #fef3c7;
+  }
+  
+  .circuit-diagram-container {
+    background-color: #1e293b;
+    border-color: #334155;
+  }
+  
+  .circuit-line {
+    background-color: #94a3b8;
+  }
+  
+  .circuit-gate {
+    background-color: #1e293b;
+    border-color: #64748b;
+    color: #e2e8f0;
+  }
+  
+  .code-examples {
+    border-color: #334155;
+  }
+  
+  .code-tabs {
+    background-color: #1e293b;
+    border-color: #334155;
+  }
+  
+  .tab-btn {
+    color: #94a3b8;
+  }
+  
+  .tab-btn.active {
+    background-color: #0f172a;
+    color: #e2e8f0;
+  }
+  
+  .code-content {
+    background-color: #0f172a;
+  }
+  
+  .code-block {
+    color: #e2e8f0;
+  }
+  
+  .copy-button {
+    background-color: #334155;
+    color: #cbd5e1;
+    border-color: #475569;
+  }
+  
+  .copy-button:hover {
+    background-color: #475569;
+    color: #f8fafc;
+  }
+  
+  .copy-button.copied {
+    background-color: #14532d;
+    color: #bbf7d0;
+    border-color: #22c55e;
+  }
+  
+  .quiz-container {
+    background-color: #1e293b;
+    border-color: #334155;
+  }
+  
+  .quiz-option {
+    background-color: #1e293b;
+    border-color: #475569;
+    color: #e2e8f0;
+  }
+  
+  .quiz-option:hover {
+    background-color: #334155;
+  }
+  
+  .quiz-option.selected {
+    background-color: #075985;
+    border-color: #0ea5e9;
+  }
+  
+  .quiz-option.correct {
+    background-color: #14532d;
+    border-color: #22c55e;
+  }
+  
+  .quiz-option.incorrect {
+    background-color: #7f1d1d;
+    border-color: #ef4444;
+  }
+  
+  .footer {
+    border-color: #334155;
+    color: #94a3b8;
+  }
+  
+  .footer a {
+    color: #60a5fa;
+  }
 }
