@@ -12,7 +12,7 @@ body {
     padding: 20px;
     /* Add padding for smaller screens */
     box-sizing: border-box;
-}
+} /* Added missing closing bracket here */
 
 .container {
     background-color: #ffffff;
@@ -261,15 +261,69 @@ p.app-summary {
     }
 }
 
+/* State and Truth Table Layout */
+.state-and-truth-table {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin: 20px 0 30px;
+}
+
 /* Status Area */
 .status {
-    margin-top: 20px;
-    margin-bottom: 30px;
+    flex: 1;
+    min-width: 300px;
     background-color: #f1f5f9;
     padding: 20px;
     border-radius: 8px;
     border: 1px solid #e0e7ed;
     text-align: left;
+    margin: 0;
+}
+
+.status-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.status-header h2 {
+    margin: 0;
+}
+
+.reset-button {
+    background-color: #f8fafc;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    border-radius: 20px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.reset-button:hover {
+    background-color: #e6f4ff;
+    color: #2979ff;
+    border-color: #2979ff;
+}
+
+.reset-button:active {
+    transform: scale(0.95);
+}
+
+.reset-icon {
+    font-size: 1.2em;
+    animation: spin 1s ease-in-out;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 .status p {
@@ -297,6 +351,68 @@ p.app-summary {
     /* Use default font */
     color: #64748b;
     /* Keep color consistent */
+}
+
+/* Binary Conversion Display */
+.conversion-display {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8fafc;
+    border-radius: 6px;
+    border: 1px solid #e0e7ed;
+}
+
+.conversion-display h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1em;
+    color: #334e68;
+}
+
+.binary-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.input-bits {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.bit-value {
+    font-family: monospace;
+    font-size: 1.1em;
+    color: #334e68;
+}
+
+.operation-bit {
+    font-family: monospace;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #2979ff;
+    margin: 0 10px;
+}
+
+.result-bit {
+    font-family: monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #1e3a8a;
+    padding: 5px 10px;
+    background-color: #e6f4ff;
+    border-radius: 4px;
+}
+
+.conversion-explanation {
+    font-style: italic;
+    color: #64748b;
+    font-size: 0.95em;
+    text-align: center;
+    margin-top: 5px;
 }
 
 
@@ -351,6 +467,16 @@ p.app-summary {
 }
 
 /* Truth Table Styling */
+.truth-table-area {
+    flex: 1;
+    min-width: 300px;
+    background-color: #f1f5f9;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e0e7ed;
+    margin: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
 .truth-table-area table {
     width: 100%;
     border-collapse: collapse;
@@ -420,58 +546,9 @@ p.app-summary {
     color: #334e68;
 }
 
-/* Circuit Diagram Styling */
-.circuit-diagram-container {
-  margin-top: 30px;
-  padding: 20px;
-  background-color: #f8fafc;
-  border-radius: 8px;
-  border: 1px solid #e0e7ed;
-}
+/* Circuit Diagram Styling - Removed */
 
-.circuit-diagram {
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
-  position: relative;
-  margin-top: 15px;
-  overflow: visible;
-  width: 100%;
-}
-
-.circuit-element {
-  position: absolute;
-  font-weight: bold;
-  z-index: 2;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.circuit-line {
-  position: absolute;
-  background-color: #334e68;
-  height: 2px;
-  z-index: 1;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.circuit-gate {
-  width: 60px;
-  height: 60px;
-  background-color: #ffffff;
-  border: 2px solid #334e68;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  font-size: 14px;
-  position: absolute;
-  z-index: 2;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+/* Circuit Animation Styles - Removed */
 
 /* Code Examples Styling */
 .code-examples-container {
@@ -524,6 +601,14 @@ p.app-summary {
   display: block; /* Show the first code block by default (JavaScript) */
 }
 
+/* Ensure code is visible even if syntax highlighting fails */
+.code-content code {
+  color: #333;
+  font-family: 'Courier New', monospace;
+  white-space: pre;
+  font-size: 14px;
+}
+
 .code-content pre code {
   display: block; /* Always display the code inside the pre */
   padding: 15px;
@@ -541,13 +626,7 @@ p.app-summary {
 }
 
 /* Circuit element transition animation */
-.circuit-element {
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.circuit-element:hover {
-  transform: scale(1.05);
-}
+/* Removed circuit element styles */
 
 /* Enhanced Loading indicator */
 .loading-indicator {
@@ -626,74 +705,9 @@ p.app-summary {
   text-decoration: underline;
 }
 
-/* Modal for keyboard shortcuts */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  align-items: center;
-  justify-content: center;
-}
+/* Modal for keyboard shortcuts removed */
 
-.modal-content {
-  background-color: #ffffff;
-  margin: auto;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  max-width: 500px;
-  width: 90%;
-  position: relative;
-  animation: modalFade 0.3s ease;
-}
-
-@keyframes modalFade {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.close-button {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 1.5em;
-  color: #64748b;
-  cursor: pointer;
-  line-height: 1;
-}
-
-.close-button:hover {
-  color: #334e68;
-}
-
-.shortcuts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
-  margin-top: 15px;
-}
-
-.shortcuts-grid div {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #475569;
-}
-
-.shortcuts-grid kbd {
-  display: inline-block;
-  padding: 3px 6px;
-  font-family: monospace;
-  background-color: #f1f5f9;
-  border: 1px solid #cbd5e1;
-  border-radius: 4px;
-  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-}
+/* Keyboard Shortcuts Section removed */
 
 /* Mode Toggles */
 .mode-toggles {
@@ -735,51 +749,11 @@ p.app-summary {
   color: #334e68;
 }
 
-/* Keyboard shortcuts hints */
-.keyboard-hints {
-  margin: 10px auto 25px;
-  padding: 15px;
-  background-color: #f0f9ff;
-  border-radius: 8px;
-  border: 1px solid #e0f2fe;
-  max-width: 500px;
-  text-align: left;
-}
-
-.keyboard-hints p {
-  margin-top: 0;
-  margin-bottom: 8px;
-  color: #334e68;
-}
-
-.keyboard-hints ul {
-  margin: 0;
-  padding-left: 20px;
-  column-count: 2;
-  column-gap: 20px;
-}
-
-.keyboard-hints li {
-  margin-bottom: 5px;
-  color: #475569;
-}
-
-.keyboard-hints kbd {
-  display: inline-block;
-  padding: 2px 6px;
-  font-family: monospace;
-  background-color: #f1f5f9;
-  border: 1px solid #cbd5e1;
-  border-radius: 4px;
-  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-  margin-right: 5px;
-}
+/* Keyboard shortcuts hints removed */
 
 /* Truth Table Mode */
 .truth-table-mode .circuit,
-.truth-table-mode .description-area,
-.truth-table-mode .circuit-diagram-container,
-.truth-table-mode .code-examples-container {
+.truth-table-mode .description-area {
   display: none;
 }
 
@@ -794,7 +768,7 @@ p.app-summary {
   font-size: 1.2em;
 }
 
-/* Auto Demo Styling */
+/* Auto Demo and Controls Styling */
 .demo-running .switch,
 .demo-running .operation-grid label {
   position: relative;
@@ -815,6 +789,55 @@ p.app-summary {
   font-weight: 500;
   animation: pulse 1.5s infinite;
 }
+
+/* Demo controls and explanation */
+.demo-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  justify-content: center;
+}
+
+.control-button {
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #334e68;
+}
+
+.control-button:hover {
+  background-color: #e6f4ff;
+  border-color: #2979ff;
+}
+
+.demo-explanation {
+  margin: 15px auto;
+  padding: 15px;
+  background-color: #f0f9ff;
+  border-radius: 8px;
+  border: 1px solid #e0f2fe;
+  max-width: 800px;
+}
+
+.explanation-title {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+  color: #334e68;
+}
+
+.explanation-text {
+  margin: 0;
+  color: #475569;
+  line-height: 1.5;
+}
+
+/* Circuit Animation */
+/* Animation styles removed */
 
 /* Copy Code Button */
 .code-content pre {
@@ -863,12 +886,153 @@ p.app-summary {
   }
 }
 
-/* Remove quiz related styles */
-.toast-message {
-  display: none;
+/* Quiz Section Styles */
+.quiz-section {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e0e7ed;
+  text-align: center;
 }
 
-/* Mobile Optimization - updated with better breakpoints */
+.action-button {
+  background-color: #2979ff;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.action-button:hover {
+  background-color: #2362ea;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.action-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-container {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.quiz-question {
+  font-size: 1.1em;
+  margin-bottom: 15px;
+  color: #334e68;
+  font-weight: 600;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.quiz-option {
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 12px 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #334e68;
+}
+
+.quiz-option:hover {
+  background-color: #e6f4ff;
+  border-color: #2979ff;
+}
+
+.quiz-option.selected {
+  background-color: #e6f4ff;
+  border-color: #2979ff;
+  box-shadow: 0 0 0 2px rgba(41, 121, 255, 0.2);
+}
+
+.quiz-option.correct {
+  background-color: #dcfce7;
+  border-color: #22c55e;
+  color: #166534;
+}
+
+.quiz-option.incorrect {
+  background-color: #fee2e2;
+  border-color: #ef4444;
+  color: #7f1d1d;
+}
+
+.quiz-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.quiz-feedback {
+  margin: 15px 0;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: 500;
+  text-align: center;
+  min-height: 40px;
+}
+
+.quiz-feedback.correct {
+  background-color: #dcfce7;
+  color: #166534;
+  border: 1px solid #22c55e;
+}
+
+.quiz-feedback.incorrect {
+  background-color: #fee2e2;
+  color: #7f1d1d;
+  border: 1px solid #ef4444;
+}
+
+.quiz-progress {
+  text-align: center;
+  margin-top: 15px;
+  color: #64748b;
+  font-size: 0.9em;
+}
+
+.quiz-results {
+  background-color: #f0f9ff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+  border: 1px solid #e0f2fe;
+}
+
+.quiz-results h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #334e68;
+}
+
+.quiz-results p {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  color: #334e68;
+}
+
+#quizScoreDisplay {
+  font-weight: bold;
+  color: #2979ff;
+}
+
+/* Mobile/Touchscreen Optimization */
 @media (max-width: 768px) {
   .container {
     padding: 25px 20px;
@@ -876,6 +1040,45 @@ p.app-summary {
   
   .switch-area {
     gap: 60px; /* Reduced gap on medium screens */
+  }
+  
+  /* Larger hit areas for touch */
+  .switch {
+    width: 65px;
+    height: 110px;
+  }
+  
+  .switch .handle {
+    width: 53px;
+  }
+  
+  /* Larger checkboxes and radio buttons */
+  input[type="checkbox"],
+  input[type="radio"] {
+    transform: scale(1.2);
+  }
+  
+  .operation-grid label {
+    padding: 10px 0;
+  }
+  
+  /* Larger buttons */
+  .copy-button,
+  .control-button,
+  .text-button {
+    padding: 8px 12px;
+    font-size: 1em;
+  }
+  
+  /* Add touch feedback */
+  .feedback-flash {
+    animation: touchFeedback 0.3s ease;
+  }
+  
+  @keyframes touchFeedback {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); background-color: rgba(41, 121, 255, 0.2); }
+    100% { transform: scale(1); }
   }
 }
 
@@ -893,6 +1096,16 @@ p.app-summary {
     gap: 30px;
   }
   
+  /* Even larger hit areas for small screens */
+  .switch {
+    width: 70px;
+    height: 120px;
+  }
+  
+  .switch .handle {
+    width: 58px;
+  }
+  
   .operation-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -904,15 +1117,97 @@ p.app-summary {
   h1 {
     font-size: 1.8em;
   }
+  
+  /* Full width buttons on small screens */
+  .mode-toggles {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .mode-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* Fixed bottom navigation for important controls */
+  .sticky-controls {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+  }
 }
+
+/* Force Theme Styles */
+body.force-light {
+  background-color: #eef2f7 !important;
+}
+
+body.force-dark {
+  background-color: #0f172a !important; /* Darker background */
+}
+
+body.force-dark .container {
+  background-color: #1e293b !important; /* Consistent with other components */
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Truth table and status styling for forced dark mode */
+body.force-dark .status, 
+body.force-dark .truth-table-area {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+body.force-dark .circuit {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+body.force-dark .truth-table-area th {
+  background-color: #1e293b !important;
+  color: #e2e8f0 !important;
+  border-color: #334155 !important;
+}
+
+body.force-dark .truth-table-area td {
+  color: #cbd5e1 !important;
+  border-color: #334155 !important;
+}
+
+body.force-dark .truth-table-area tr.current-row td {
+  background-color: #1e3a5f !important;
+  color: #e2e8f0 !important;
+  border-color: #60a5fa !important;
+}
+
+body.force-dark .truth-table-area tr.current-row td:last-child {
+  color: #93c5fd !important;
+  background-color: #0f172a !important;
+}
+
+/* Keyboard Shortcuts dark mode styles removed */
 
 /* Dark Mode Support */
 @media (prefers-color-scheme: dark) {
-  body {
+  /* Dark mode for new layout elements */
+  .state-and-truth-table {
+    border-color: #334155;
+  }
+  
+  /* Dark mode keyboard shortcut styles removed */
+  body:not(.force-light) {
     background-color: #1a1f2c;
   }
   
-  .container {
+  body:not(.force-light) .container {
     background-color: #252d3e;
     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
   }
@@ -942,9 +1237,10 @@ p.app-summary {
     border-color: #334155;
   }
   
-  .status {
+  .status, .truth-table-area {
     background-color: #1e293b;
     border-color: #334155;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   }
   
   .status p {
@@ -953,6 +1249,33 @@ p.app-summary {
   
   .status strong {
     color: #60a5fa;
+  }
+  
+  /* Dark mode for conversion display */
+  .conversion-display {
+    background-color: #1e293b;
+    border-color: #334155;
+  }
+  
+  .conversion-display h4 {
+    color: #e2e8f0;
+  }
+  
+  .bit-value {
+    color: #cbd5e1;
+  }
+  
+  .operation-bit {
+    color: #60a5fa;
+  }
+  
+  .result-bit {
+    color: #93c5fd;
+    background-color: #0f172a;
+  }
+  
+  .conversion-explanation {
+    color: #94a3b8;
   }
   
   .description-area {
@@ -975,9 +1298,22 @@ p.app-summary {
   }
   
   .truth-table-area tr.current-row td {
-    background-color: #854d0e;
-    color: #fef3c7;
-    animation: highlightRow 1s ease;
+    background-color: #1e3a5f;
+    color: #e2e8f0;
+    border-color: #60a5fa;
+    animation: darkHighlightRow 1s ease;
+  }
+  
+  .truth-table-area tr.current-row td:last-child {
+    color: #93c5fd;
+    font-weight: bold;
+    background-color: #0f172a;
+  }
+  
+  @keyframes darkHighlightRow {
+    0% { background-color: #1e293b; }
+    50% { background-color: #1e3a5f; }
+    100% { background-color: #1e3a5f; }
   }
   
   .truth-table-area tbody tr:hover:not(.current-row) {
@@ -1000,19 +1336,18 @@ p.app-summary {
     100% { background-color: #854d0e; }
   }
   
-  .circuit-diagram-container {
+  /* Removed circuit diagram styles */
+  
+  .reset-button {
     background-color: #1e293b;
-    border-color: #334155;
+    color: #94a3b8;
+    border-color: #475569;
   }
   
-  .circuit-line {
-    background-color: #94a3b8;
-  }
-  
-  .circuit-gate {
-    background-color: #1e293b;
-    border-color: #64748b;
+  .reset-button:hover {
+    background-color: #0f172a;
     color: #e2e8f0;
+    border-color: #60a5fa;
   }
   
   .code-examples {
@@ -1060,6 +1395,11 @@ p.app-summary {
     border-color: #22c55e;
   }
   
+  /* Dark mode code styling */
+  .code-content code {
+    color: #e2e8f0;
+  }
+  
   /* Dark mode for new UI elements */
   .mode-toggles {
     background-color: #1e293b;
@@ -1080,24 +1420,7 @@ p.app-summary {
     color: #e2e8f0;
   }
   
-  .keyboard-hints {
-    background-color: #1e293b;
-    border-color: #334155;
-  }
-  
-  .keyboard-hints p {
-    color: #e2e8f0;
-  }
-  
-  .keyboard-hints li {
-    color: #cbd5e1;
-  }
-  
-  .keyboard-hints kbd {
-    background-color: #334155;
-    border-color: #475569;
-    color: #e2e8f0;
-  }
+  /* Dark mode keyboard shortcuts hints removed */
   
   /* Auto demo in dark mode */
   .demo-running .switch::after,

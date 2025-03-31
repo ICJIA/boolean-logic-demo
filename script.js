@@ -12,11 +12,7 @@ const contextualExplanationSpan = document.getElementById(
 );
 const loadingIndicatorElement = document.getElementById("loadingIndicator");
 
-// Circuit and Code Elements
-const circuitDiagramElement = document.getElementById("circuitDiagram");
-const circuitDiagramTitleElement = document.getElementById(
-  "circuitDiagramTitle"
-);
+// Code Elements
 const jsCodeElement = document.getElementById("jsCode");
 const pythonCodeElement = document.getElementById("pythonCode");
 const cppCodeElement = document.getElementById("cppCode");
@@ -260,140 +256,6 @@ function handleTruthTableRowClick(event) {
 function updateOperationDescription() {
   operationDescriptionTextElement.textContent =
     OPERATIONS[currentOperation].description;
-}
-
-// --- Circuit Diagram Drawing ---
-function drawCircuitDiagram() {
-  const result = calculateResult(currentOperation, isSwitchAUp, isSwitchBUp);
-
-  // Clear previous diagram
-  circuitDiagramElement.innerHTML = "";
-
-  // Update the diagram title
-  circuitDiagramTitleElement.textContent = `Interactive Circuit Diagram: ${currentOperation}`;
-
-  // Calculate positions for better alignment - adjusted for wider container
-  const canvasWidth = 600; // Increased total width for the diagram area
-  const inputX = 60; // X position of inputs moved right
-  const gateX = 300; // X position of the gate (centered)
-  const outputX = 500; // X position of output moved right
-  const topRowY = 60; // Y position of top row (A)
-  const bottomRowY = 130; // Y position of bottom row (B)
-  const gateY = 95; // Y position of gate (centered vertically)
-  const centerY = (topRowY + bottomRowY) / 2; // Exact center Y position
-
-  const inputAStyle = `padding: 5px; border: 1px solid #334e68; border-radius: 3px; background: ${
-    isSwitchAUp ? "#bbf7d0" : "#fecaca"
-  }`;
-  const inputBStyle = `padding: 5px; border: 1px solid #334e68; border-radius: 3px; background: ${
-    isSwitchBUp ? "#bbf7d0" : "#fecaca"
-  }`;
-  const outputStyle = `padding: 5px; border: 1px solid #334e68; border-radius: 3px; background: ${
-    result ? "#bbf7d0" : "#fecaca"
-  }`;
-
-  // Input A
-  const inputA = document.createElement("div");
-  inputA.className = "circuit-element";
-  inputA.style.top = `${topRowY - 10}px`;
-  inputA.style.left = `${inputX}px`;
-  inputA.innerHTML = `<div style="${inputAStyle}">A: ${
-    isSwitchAUp ? "True" : "False"
-  }</div>`;
-  circuitDiagramElement.appendChild(inputA);
-
-  // Input B
-  const inputB = document.createElement("div");
-  inputB.className = "circuit-element";
-  inputB.style.top = `${bottomRowY - 10}px`;
-  inputB.style.left = `${inputX}px`;
-  inputB.innerHTML = `<div style="${inputBStyle}">B: ${
-    isSwitchBUp ? "True" : "False"
-  }</div>`;
-  circuitDiagramElement.appendChild(inputB);
-
-  // Line from A to vertical connector
-  const lineA = document.createElement("div");
-  lineA.className = "circuit-line";
-  lineA.style.width = `${gateX - inputX - 70}px`;
-  lineA.style.top = `${topRowY}px`;
-  lineA.style.left = `${inputX + 70}px`;
-  circuitDiagramElement.appendChild(lineA);
-
-  // Line from B to vertical connector
-  const lineB = document.createElement("div");
-  lineB.className = "circuit-line";
-  lineB.style.width = `${gateX - inputX - 70}px`;
-  lineB.style.top = `${bottomRowY}px`;
-  lineB.style.left = `${inputX + 70}px`;
-  circuitDiagramElement.appendChild(lineB);
-
-  // Gate - better positioned for proper centering
-  const gate = document.createElement("div");
-  gate.className = "circuit-gate";
-  gate.style.top = `${centerY - 30}px`; // Center vertically using the calculated centerY
-  gate.style.left = `${gateX - 30}px`; // Adjusted for better centering
-
-  // Handle special cases for NOT gates
-  if (currentOperation === "NOTA" || currentOperation === "NOTB") {
-    gate.textContent = currentOperation;
-    gate.style.width = "60px";
-
-    if (currentOperation === "NOTA") {
-      // No line from B to gate for NOTA
-      lineB.remove();
-    } else {
-      // No line from A to gate for NOTB
-      lineA.remove();
-    }
-  } else {
-    gate.textContent = currentOperation;
-    gate.style.width = "80px";
-
-    // Vertical line connecting A and B inputs - now positioned precisely
-    const verticalLine = document.createElement("div");
-    verticalLine.className = "circuit-line";
-    verticalLine.style.width = "2px";
-    verticalLine.style.height = `${bottomRowY - topRowY}px`;
-    verticalLine.style.top = `${topRowY}px`;
-    verticalLine.style.left = `${gateX - 70}px`;
-    circuitDiagramElement.appendChild(verticalLine);
-
-    // Short horizontal line from vertical connector to gate (for A)
-    const lineAtoGate = document.createElement("div");
-    lineAtoGate.className = "circuit-line";
-    lineAtoGate.style.width = "30px";
-    lineAtoGate.style.top = `${topRowY}px`;
-    lineAtoGate.style.left = `${gateX - 70}px`;
-    circuitDiagramElement.appendChild(lineAtoGate);
-
-    // Short horizontal line from vertical connector to gate (for B)
-    const lineBtoGate = document.createElement("div");
-    lineBtoGate.className = "circuit-line";
-    lineBtoGate.style.width = "30px";
-    lineBtoGate.style.top = `${bottomRowY}px`;
-    lineBtoGate.style.left = `${gateX - 70}px`;
-    circuitDiagramElement.appendChild(lineBtoGate);
-  }
-  circuitDiagramElement.appendChild(gate);
-
-  // Line from gate to output - aligned with center of gate
-  const lineOutput = document.createElement("div");
-  lineOutput.className = "circuit-line";
-  lineOutput.style.width = `${outputX - gateX - 50}px`; // Adjusted width
-  lineOutput.style.top = `${centerY}px`; // Align with center Y for consistency
-  lineOutput.style.left = `${gateX + 50}px`; // Position after the gate
-  circuitDiagramElement.appendChild(lineOutput);
-
-  // Output - aligned with center
-  const output = document.createElement("div");
-  output.className = "circuit-element";
-  output.style.top = `${centerY - 10}px`; // Center with line
-  output.style.left = `${outputX}px`;
-  output.innerHTML = `<div style="${outputStyle}">Output: ${
-    result ? "True" : "False"
-  }</div>`;
-  circuitDiagramElement.appendChild(output);
 }
 
 // --- Code Example Functions ---
@@ -1264,7 +1126,7 @@ function updateAll() {
     updateStatusDisplay(lightResult);
     generateTruthTable();
     updateOperationDescription();
-    drawCircuitDiagram();
+    
     updateCodeExamples();
     
     // Hide loading after a slight delay for better visual effect
@@ -1290,7 +1152,7 @@ function setupKeyboardSupport() {
 
   // Allow arrow key navigation between radio buttons
   document.addEventListener("keydown", (e) => {
-    // If auto demo is running, don't allow keyboard shortcuts
+    // If auto demo is running, don't process keyboard events
     if (isAutoDemoRunning) return;
     
     // Toggle switches with number keys
@@ -1563,24 +1425,10 @@ function createModeToggles() {
   togglesContainer.appendChild(truthTableToggleLabel);
   togglesContainer.appendChild(autoDemoToggleLabel);
   
-  // Add keyboard hints
-  const keyboardHints = document.createElement('div');
-  keyboardHints.className = 'keyboard-hints';
-  keyboardHints.innerHTML = `
-    <p><strong>Keyboard Shortcuts:</strong></p>
-    <ul>
-      <li><kbd>1</kbd> - Toggle switch A</li>
-      <li><kbd>2</kbd> - Toggle switch B</li>
-      <li><kbd>t</kbd> - Truth table mode</li>
-      <li><kbd>a</kbd> - Auto demo</li>
-    </ul>
-  `;
-  
   // Add to page - after the operation selection
   const controlsSection = document.querySelector('.controls');
   if (controlsSection) {
     controlsSection.after(togglesContainer);
-    togglesContainer.after(keyboardHints);
   }
 }
 
@@ -1595,6 +1443,9 @@ function enhanceLoadingAnimation() {
 
 // --- Initialization ---
 function initialize() {
+  // Force dark mode for all users
+  document.body.classList.add('force-dark');
+  
   // Update the year in the footer
   const currentYearSpan = document.getElementById("currentYear");
   if (currentYearSpan) {
@@ -1642,10 +1493,7 @@ function initialize() {
     table.setAttribute('aria-label', 'Truth table showing all possible input combinations and results');
   });
   
-  document.querySelectorAll('.circuit-diagram-container').forEach(diagram => {
-    diagram.setAttribute('role', 'region');
-    diagram.setAttribute('aria-label', 'Interactive circuit diagram showing the logic gate configuration');
-  });
+  // Removed circuit diagram container code
 
   // Add event listeners
   switchAElement.addEventListener("click", () => handleSwitchToggle("A"));
@@ -1673,53 +1521,9 @@ function initialize() {
   updateAll();
 }
 
-// --- Keyboard Shortcuts Modal ---
-function setupKeyboardShortcutsModal() {
-  const modal = document.getElementById("keyboardHelpModal");
-  const btn = document.getElementById("keyboardHelpBtn");
-  const closeBtn = modal.querySelector(".close-button");
-  
-  if (!modal || !btn || !closeBtn) return;
-  
-  // Show the modal when the button is clicked
-  btn.addEventListener("click", () => {
-    modal.style.display = "flex";
-    modal.setAttribute("aria-hidden", "false");
-    
-    // Set focus on close button for better accessibility
-    closeBtn.focus();
-  });
-  
-  // Close modal when close button is clicked
-  closeBtn.addEventListener("click", () => {
-    modal.style.display = "none";
-    modal.setAttribute("aria-hidden", "true");
-    
-    // Return focus to the button
-    btn.focus();
-  });
-  
-  // Close modal when clicking outside of it
-  window.addEventListener("click", (event) => {
-    if (event.target === modal) {
-      modal.style.display = "none";
-      modal.setAttribute("aria-hidden", "true");
-      btn.focus();
-    }
-  });
-  
-  // Close modal with escape key
-  window.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && modal.style.display === "flex") {
-      modal.style.display = "none";
-      modal.setAttribute("aria-hidden", "true");
-      btn.focus();
-    }
-  });
-}
+// --- Keyboard Shortcuts Modal (removed) ---
 
 // Run initialization when the DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
   initialize();
-  setupKeyboardShortcutsModal();
 });
