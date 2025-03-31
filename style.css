@@ -127,22 +127,31 @@ p.app-summary {
 /* Enhanced Switch Style */
 .switch {
     width: 55px;
-    /* Slightly wider */
     height: 100px;
     background: linear-gradient(to bottom, #e0e7ed, #f8fafc);
-    /* Subtle gradient */
     border: 1px solid #b0bec5;
-    /* Softer border */
     border-radius: 8px;
-    /* More rounded */
     position: relative;
-    cursor: pointer;
+    cursor: pointer; /* Make it clear it's clickable */
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255, 255, 255, 0.5);
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease; /* Changed from just background-color to all for better hover effect */
+}
+
+/* Add hover effect to switches */
+.switch:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.5);
+    border-color: #90a4ae;
+    transform: translateY(-1px);
+}
+
+/* Add active/click effect */
+.switch:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .switch .handle {
@@ -185,6 +194,24 @@ p.app-summary {
     top: 8px;
 }
 
+/* Add hint text styling */
+.interaction-hint {
+    color: #64748b;
+    font-size: 0.95em;
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.hint-icon {
+    font-style: normal;
+    animation: pulse 2s infinite;
+}
+
 /* SVG Light Bulb */
 .light-area span {
     /* Label */
@@ -215,6 +242,23 @@ p.app-summary {
 .light.on {
     filter: drop-shadow(0 0 15px gold);
     /* Glow effect */
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+/* Added animations */
+@keyframes pulse {
+    0% { opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { opacity: 0.7; }
+}
+
+@keyframes glow {
+    from {
+        filter: drop-shadow(0 0 10px gold);
+    }
+    to {
+        filter: drop-shadow(0 0 20px gold) drop-shadow(0 0 25px yellow);
+    }
 }
 
 /* Status Area */
@@ -344,10 +388,36 @@ p.app-summary {
     background-color: #ffecb3;
     /* Highlight color */
     color: #4d2c0a;
+    animation: highlightRow 1s ease;
 }
 
 .truth-table-area tr.current-row td:last-child {
     color: #8c5a01;
+}
+
+@keyframes highlightRow {
+    0% { background-color: #fff8e1; }
+    50% { background-color: #ffecb3; }
+    100% { background-color: #ffecb3; }
+}
+
+/* Make table rows look clickable and interactive */
+.truth-table-area tbody tr {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.truth-table-area tbody tr:hover:not(.current-row) {
+    background-color: #e6f4ff;
+}
+
+/* Add styling for the table footer row */
+.truth-table-area tr.table-footer td {
+    border-top: 2px solid #334e68;
+    background-color: #f8fafc;
+    font-weight: 500;
+    font-style: italic;
+    color: #334e68;
 }
 
 /* Circuit Diagram Styling */
@@ -375,6 +445,7 @@ p.app-summary {
   position: absolute;
   font-weight: bold;
   z-index: 2;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .circuit-line {
@@ -599,6 +670,27 @@ p.app-summary {
   .truth-table-area tr.current-row td {
     background-color: #854d0e;
     color: #fef3c7;
+    animation: highlightRow 1s ease;
+  }
+  
+  .truth-table-area tbody tr:hover:not(.current-row) {
+    background-color: #1e3a5f;
+  }
+  
+  .truth-table-area tr.table-footer td {
+    border-top: 2px solid #60a5fa;
+    background-color: #1e293b;
+    color: #94a3b8;
+  }
+  
+  .interaction-hint {
+    color: #94a3b8;
+  }
+  
+  @keyframes highlightRow {
+    0% { background-color: #713f12; }
+    50% { background-color: #854d0e; }
+    100% { background-color: #854d0e; }
   }
   
   .circuit-diagram-container {

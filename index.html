@@ -211,6 +211,10 @@
           <span>Light</span>
         </div>
       </div>
+      <!-- Add instructions about interactive elements -->
+      <p class="interaction-hint">
+        <i class="hint-icon">💡</i> Click the switches above to toggle on/off.
+      </p>
 
       <!-- Status Display -->
       <div class="status">
@@ -235,20 +239,20 @@
 
       <!-- Educational Enhancements -->
       <div class="educational-section">
-        <!-- Description area has been moved up -->
+        <!-- Interactive Circuit Diagram (moved up) -->
+        <div class="circuit-diagram-container">
+          <h2 id="circuitDiagramTitle">Interactive Circuit Diagram: AND</h2>
+          <div id="circuitDiagram" class="circuit-diagram">
+            <!-- Circuit will be rendered here by JS -->
+          </div>
+        </div>
+
+        <!-- Truth table moved below circuit diagram -->
         <div class="truth-table-area">
-          <h3>Truth Table</h3>
+          <h3>Truth Table <small>(Click any row to set switches)</small></h3>
           <table id="truthTable">
             <!-- JS will populate this -->
           </table>
-        </div>
-      </div>
-
-      <!-- Interactive Circuit Diagram -->
-      <div class="circuit-diagram-container">
-        <h2 id="circuitDiagramTitle">Interactive Circuit Diagram: AND</h2>
-        <div id="circuitDiagram" class="circuit-diagram">
-          <!-- Circuit will be rendered here by JS -->
         </div>
       </div>
 
@@ -282,10 +286,8 @@
 
       <footer class="footer">
         <p>
-          © 2023 Boolean Logic Demonstrator |
-          <a
-            href="https://github.com/yourusername/boolean-logic-demo"
-            target="_blank"
+          © 2025 |
+          <a href="https://github.com/icjia/boolean-logic-demo" target="_blank"
             >View on GitHub</a
           >
         </p>

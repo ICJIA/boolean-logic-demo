@@ -162,6 +162,7 @@ function generateTruthTable() {
   let tableHTML = `
         <thead>
             <tr>
+                <th>#</th>
                 <th>Switch A</th>
                 <th>Switch B</th>
                 <th>Result (Light)</th>
@@ -170,13 +171,14 @@ function generateTruthTable() {
         <tbody>
     `;
 
-  inputs.forEach((input) => {
+  inputs.forEach((input, index) => {
     const result = calculateResult(currentOperation, input.a, input.b);
     const isCurrentRow = input.a === isSwitchAUp && input.b === isSwitchBUp;
     const rowClass = isCurrentRow ? "current-row" : "";
-
+    // Add row number (index + 1) and data attributes to store state
     tableHTML += `
-            <tr class="${rowClass}">
+            <tr class="${rowClass}" data-a="${input.a}" data-b="${input.b}">
+                <td>${index + 1}</td>
                 <td>${input.a ? "Up (True)" : "Down (False)"}</td>
                 <td>${input.b ? "Up (True)" : "Down (False)"}</td>
                 <td>${result ? "ON (True)" : "OFF (False)"}</td>
@@ -184,8 +186,47 @@ function generateTruthTable() {
         `;
   });
 
+  // Add a fifth row for a summary
+  tableHTML += `
+        <tr class="table-footer">
+            <td>5</td>
+            <td colspan="3">Complete Truth Table for ${currentOperation}</td>
+        </tr>
+    `;
+
   tableHTML += "</tbody>";
   truthTableBody.innerHTML = tableHTML;
+
+  // Add click event listeners to truth table rows (excluding the footer)
+  document
+    .querySelectorAll("#truthTable tbody tr:not(.table-footer)")
+    .forEach((row) => {
+      row.addEventListener("click", handleTruthTableRowClick);
+    });
+}
+
+// Add this new function to handle truth table row clicks
+function handleTruthTableRowClick(event) {
+  const row = event.currentTarget;
+  const switchAValue = row.getAttribute("data-a") === "true";
+  const switchBValue = row.getAttribute("data-b") === "true";
+
+  // Update switch states
+  isSwitchAUp = switchAValue;
+  isSwitchBUp = switchBValue;
+
+  // Update switch visuals
+  switchAElement.classList.toggle("up", isSwitchAUp);
+  switchAElement.classList.toggle("down", !isSwitchAUp);
+  switchBElement.classList.toggle("up", isSwitchBUp);
+  switchBElement.classList.toggle("down", !isSwitchBUp);
+
+  // Update ARIA states
+  switchAElement.setAttribute("aria-pressed", isSwitchAUp ? "true" : "false");
+  switchBElement.setAttribute("aria-pressed", isSwitchBUp ? "true" : "false");
+
+  // Update everything
+  updateAll();
 }
 
 function updateOperationDescription() {
@@ -330,99 +371,39 @@ function drawCircuitDiagram() {
 function updateCodeExamples() {
   const dynamicCodeExamples = {
     AND: {
-      js: `// JavaScript AND operator
-let switchA = ${isSwitchAUp}; // ${isSwitchAUp ? "true" : "false"}
-let switchB = ${isSwitchBUp}; // ${isSwitchBUp ? "true" : "false"}
-let result = switchA && switchB;
-console.log(result); // ${isSwitchAUp && isSwitchBUp}
-
-// In a function:
-function logicalAND(a, b) {
-    return a && b;
-}
-
-// With ES6 arrow function:
-const andOperation = (a, b) => a && b;
-
-// With ternary operator:
-const andResult = switchA && switchB ? "true" : "false";`,
-
-      python: `# Python AND operator
-switch_a = ${isSwitchAUp} # ${isSwitchAUp ? "True" : "False"}
-switch_b = ${isSwitchBUp} # ${isSwitchBUp ? "True" : "False"}
-result = switch_a and switch_b
-print(result) # ${isSwitchAUp && isSwitchBUp ? "True" : "False"}
-
-# In a function:
-def logical_and(a, b):
-    return a and b
-
-# As a lambda expression:
-and_lambda = lambda a, b: a and b
-
-# Using operator module:
-import operator
-result = operator.and_(switch_a, switch_b)`,
-
-      cpp: `// C++ AND operator
-#include <iostream>
-using namespace std;
-
-int main() {
-    bool switchA = ${isSwitchAUp ? "true" : "false"};
-    bool switchB = ${isSwitchBUp ? "true" : "false"};
-    
-    bool result = switchA && switchB;
-    cout << "Result: " << (result ? "true" : "false") << endl;
-    
-    return 0;
-}
-
-// In a function:
-bool logicalAND(bool a, bool b) {
-    return a && b;
-}`,
-
-      java: `// Java AND operator
-public class BooleanLogic {
-    public static void main(String[] args) {
-        boolean switchA = ${isSwitchAUp ? "true" : "false"};
-        boolean switchB = ${isSwitchBUp ? "true" : "false"};
-        
-        boolean result = switchA && switchB;
-        System.out.println("Result: " + result); // ${
-          isSwitchAUp && isSwitchBUp
-        }
-    }
-    
-    // In a method:
-    public static boolean logicalAND(boolean a, boolean b) {
-        return a && b;
-    }
-}`,
+      // ...existing code...
     },
 
     OR: {
-      js: `// JavaScript OR operator
+      // ...existing code...
+    },
+
+    XOR: {
+      // ...existing code...
+    },
+
+    // Add missing code examples for the other operations
+    NAND: {
+      js: `// JavaScript NAND operator
 let switchA = ${isSwitchAUp}; // ${isSwitchAUp ? "true" : "false"}
 let switchB = ${isSwitchBUp}; // ${isSwitchBUp ? "true" : "false"}
-let result = switchA || switchB;
-console.log(result); // ${isSwitchAUp || isSwitchBUp}
+let result = !(switchA && switchB);
+console.log(result); // ${!(isSwitchAUp && isSwitchBUp)}
 
 // In a function:
-function logicalOR(a, b) {
-    return a || b;
+function logicalNAND(a, b) {
+    return !(a && b);
 }`,
-      python: `# Python OR operator
+      python: `# Python NAND operator
 switch_a = ${isSwitchAUp} # ${isSwitchAUp ? "True" : "False"}
 switch_b = ${isSwitchBUp} # ${isSwitchBUp ? "True" : "False"}
-result = switch_a or switch_b
-print(result) # ${isSwitchAUp || isSwitchBUp ? "True" : "False"}
+result = not (switch_a and switch_b)
+print(result) # ${!(isSwitchAUp && isSwitchBUp) ? "True" : "False"}
 
 # In a function:
-def logical_or(a, b):
-    return a or b`,
-      cpp: `// C++ OR operator
+def logical_nand(a, b):
+    return not (a and b)`,
+      cpp: `// C++ NAND operator
 #include <iostream>
 using namespace std;
 
@@ -430,59 +411,46 @@ int main() {
     bool switchA = ${isSwitchAUp ? "true" : "false"};
     bool switchB = ${isSwitchBUp ? "true" : "false"};
     
-    bool result = switchA || switchB;
+    bool result = !(switchA && switchB);
     cout << "Result: " << (result ? "true" : "false") << endl;
     
     return 0;
-}
-
-// In a function:
-bool logicalOR(bool a, bool b) {
-    return a || b;
 }`,
-      java: `// Java OR operator
+      java: `// Java NAND operator
 public class BooleanLogic {
     public static void main(String[] args) {
         boolean switchA = ${isSwitchAUp ? "true" : "false"};
         boolean switchB = ${isSwitchBUp ? "true" : "false"};
         
-        boolean result = switchA || switchB;
-        System.out.println("Result: " + result); // ${
-          isSwitchAUp || isSwitchBUp
-        }
-    }
-    
-    // In a method:
-    public static boolean logicalOR(boolean a, boolean b) {
-        return a || b;
+        boolean result = !(switchA && switchB);
+        System.out.println("Result: " + result); // ${!(
+          isSwitchAUp && isSwitchBUp
+        )}
     }
 }`,
     },
 
-    XOR: {
-      js: `// JavaScript XOR implementation (no direct operator)
+    NOR: {
+      js: `// JavaScript NOR operator
 let switchA = ${isSwitchAUp}; // ${isSwitchAUp ? "true" : "false"}
 let switchB = ${isSwitchBUp}; // ${isSwitchBUp ? "true" : "false"}
-let result = switchA !== switchB;
-console.log(result); // ${isSwitchAUp !== isSwitchBUp}
+let result = !(switchA || switchB);
+console.log(result); // ${!(isSwitchAUp || isSwitchBUp)}
 
 // In a function:
-function logicalXOR(a, b) {
-    return a !== b;
+function logicalNOR(a, b) {
+    return !(a || b);
 }`,
-      python: `# Python XOR implementation using !=
+      python: `# Python NOR operator
 switch_a = ${isSwitchAUp} # ${isSwitchAUp ? "True" : "False"}
 switch_b = ${isSwitchBUp} # ${isSwitchBUp ? "True" : "False"}
-result = switch_a != switch_b
-print(result) # ${isSwitchAUp !== isSwitchBUp ? "True" : "False"}
+result = not (switch_a or switch_b)
+print(result) # ${!(isSwitchAUp || isSwitchBUp) ? "True" : "False"}
 
 # In a function:
-def logical_xor(a, b):
-    return a != b
-    
-# You can also use the ^ bitwise operator
-result_bitwise = switch_a ^ switch_b`,
-      cpp: `// C++ XOR implementation
+def logical_nor(a, b):
+    return not (a or b)`,
+      cpp: `// C++ NOR operator
 #include <iostream>
 using namespace std;
 
@@ -490,48 +458,168 @@ int main() {
     bool switchA = ${isSwitchAUp ? "true" : "false"};
     bool switchB = ${isSwitchBUp ? "true" : "false"};
     
-    // XOR using != operator
-    bool result = switchA != switchB;
+    bool result = !(switchA || switchB);
     cout << "Result: " << (result ? "true" : "false") << endl;
-    
-    // XOR using ^ bitwise operator
-    bool resultBitwise = switchA ^ switchB;
-    cout << "Bitwise result: " << (resultBitwise ? "true" : "false") << endl;
     
     return 0;
 }`,
-      java: `// Java XOR implementation
+      java: `// Java NOR operator
 public class BooleanLogic {
     public static void main(String[] args) {
         boolean switchA = ${isSwitchAUp ? "true" : "false"};
         boolean switchB = ${isSwitchBUp ? "true" : "false"};
         
-        // XOR using != operator 
-        boolean result = switchA != switchB;
-        System.out.println("Result: " + result); // ${
-          isSwitchAUp !== isSwitchBUp
-        }
+        boolean result = !(switchA || switchB);
+        System.out.println("Result: " + result); // ${!(
+          isSwitchAUp || isSwitchBUp
+        )}
+    }
+}`,
+    },
+
+    XNOR: {
+      js: `// JavaScript XNOR implementation
+let switchA = ${isSwitchAUp}; // ${isSwitchAUp ? "true" : "false"}
+let switchB = ${isSwitchBUp}; // ${isSwitchBUp ? "true" : "false"}
+let result = switchA === switchB;
+console.log(result); // ${isSwitchAUp === isSwitchBUp}
+
+// In a function:
+function logicalXNOR(a, b) {
+    return a === b;
+}`,
+      python: `# Python XNOR implementation
+switch_a = ${isSwitchAUp} # ${isSwitchAUp ? "True" : "False"}
+switch_b = ${isSwitchBUp} # ${isSwitchBUp ? "True" : "False"}
+result = switch_a == switch_b
+print(result) # ${isSwitchAUp === isSwitchBUp ? "True" : "False"}
+
+# In a function:
+def logical_xnor(a, b):
+    return a == b`,
+      cpp: `// C++ XNOR implementation
+#include <iostream>
+using namespace std;
+
+int main() {
+    bool switchA = ${isSwitchAUp ? "true" : "false"};
+    bool switchB = ${isSwitchBUp ? "true" : "false"};
+    
+    bool result = switchA == switchB;
+    cout << "Result: " << (result ? "true" : "false") << endl;
+    
+    return 0;
+}`,
+      java: `// Java XNOR implementation
+public class BooleanLogic {
+    public static void main(String[] args) {
+        boolean switchA = ${isSwitchAUp ? "true" : "false"};
+        boolean switchB = ${isSwitchBUp ? "true" : "false"};
         
-        // XOR using ^ bitwise operator
-        boolean resultBitwise = switchA ^ switchB;
-        System.out.println("Bitwise result: " + resultBitwise);
+        boolean result = switchA == switchB;
+        System.out.println("Result: " + result); // ${
+          isSwitchAUp === isSwitchBUp
+        }
+    }
+}`,
+    },
+
+    NOTA: {
+      js: `// JavaScript NOT operator for A
+let switchA = ${isSwitchAUp}; // ${isSwitchAUp ? "true" : "false"}
+let result = !switchA;
+console.log(result); // ${!isSwitchAUp}
+
+// In a function:
+function logicalNOTA(a) {
+    return !a;
+}`,
+      python: `# Python NOT operator for A
+switch_a = ${isSwitchAUp} # ${isSwitchAUp ? "True" : "False"}
+result = not switch_a
+print(result) # ${!isSwitchAUp ? "True" : "False"}
+
+# In a function:
+def logical_not_a(a):
+    return not a`,
+      cpp: `// C++ NOT operator for A
+#include <iostream>
+using namespace std;
+
+int main() {
+    bool switchA = ${isSwitchAUp ? "true" : "false"};
+    
+    bool result = !switchA;
+    cout << "Result: " << (result ? "true" : "false") << endl;
+    
+    return 0;
+}`,
+      java: `// Java NOT operator for A
+public class BooleanLogic {
+    public static void main(String[] args) {
+        boolean switchA = ${isSwitchAUp ? "true" : "false"};
+        
+        boolean result = !switchA;
+        System.out.println("Result: " + result); // ${!isSwitchAUp}
+    }
+}`,
+    },
+
+    NOTB: {
+      js: `// JavaScript NOT operator for B
+let switchB = ${isSwitchBUp}; // ${isSwitchBUp ? "true" : "false"}
+let result = !switchB;
+console.log(result); // ${!isSwitchBUp}
+
+// In a function:
+function logicalNOTB(b) {
+    return !b;
+}`,
+      python: `# Python NOT operator for B
+switch_b = ${isSwitchBUp} # ${isSwitchBUp ? "True" : "False"}
+result = not switch_b
+print(result) # ${!isSwitchBUp ? "True" : "False"}
+
+# In a function:
+def logical_not_b(b):
+    return not b`,
+      cpp: `// C++ NOT operator for B
+#include <iostream>
+using namespace std;
+
+int main() {
+    bool switchB = ${isSwitchBUp ? "true" : "false"};
+    
+    bool result = !switchB;
+    cout << "Result: " << (result ? "true" : "false") << endl;
+    
+    return 0;
+}`,
+      java: `// Java NOT operator for B
+public class BooleanLogic {
+    public static void main(String[] args) {
+        boolean switchB = ${isSwitchBUp ? "true" : "false"};
+        
+        boolean result = !switchB;
+        System.out.println("Result: " + result); // ${!isSwitchBUp}
     }
 }`,
     },
   };
 
+  // Add a safe check before trying to access properties
+  const examples = dynamicCodeExamples[currentOperation] || {
+    js: `// Code example not available for ${currentOperation}`,
+    python: `# Code example not available for ${currentOperation}`,
+    cpp: `// C++ example not available for ${currentOperation}`,
+    java: `// Java example not available for ${currentOperation}`,
+  };
+
   // Update code blocks with the current operation's code
-  jsCodeElement.textContent =
-    dynamicCodeExamples[currentOperation].js || "// Code example not available";
-  pythonCodeElement.textContent =
-    dynamicCodeExamples[currentOperation].python ||
-    "# Code example not available";
-  cppCodeElement.textContent =
-    dynamicCodeExamples[currentOperation].cpp ||
-    "// C++ example not available for this operation";
-  javaCodeElement.textContent =
-    dynamicCodeExamples[currentOperation].java ||
-    "// Java example not available for this operation";
+  jsCodeElement.textContent = examples.js;
+  pythonCodeElement.textContent = examples.python;
+  cppCodeElement.textContent = examples.cpp;
+  javaCodeElement.textContent = examples.java;
 
   // Highlight the code blocks
   hljs.highlightElement(jsCodeElement);
