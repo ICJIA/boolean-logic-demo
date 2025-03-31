@@ -2,6 +2,10 @@
 
 An interactive web application that helps users understand boolean logic operations through visual demonstrations.
 
+## Demo
+
+https://boolean-demo.netlify.app
+
 ## Features
 
 - Interactive switches to toggle true/false values
