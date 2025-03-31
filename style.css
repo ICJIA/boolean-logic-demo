@@ -165,15 +165,19 @@ p.app-summary {
 
 .switch span {
     /* Label */
-    margin-top: auto;
+    margin-top: auto; /* Push to bottom */
     padding-bottom: 8px;
     font-weight: bold;
     font-size: 1.1em;
     color: #334e68;
+    /* Ensure the label doesn't get covered */
+    position: relative;
+    z-index: 2;
 }
 
+/* Adjusted down position to avoid overlap with label */
 .switch.down .handle {
-    top: 50px;
+    top: 40px; /* Changed from 50px to 40px to prevent overlap */
 }
 
 /* Adjusted positions */
