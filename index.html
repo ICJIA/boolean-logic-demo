@@ -5,33 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="An interactive boolean logic demonstration tool for learning logical operations"
+      content="An interactive boolean logic demonstration tool for learning logical operations through visual demonstrations with switches, circuit diagrams and truth tables"
     />
     <meta
       name="keywords"
-      content="boolean logic, AND, OR, XOR, NAND, NOR, XNOR, NOT, logic gates, truth table"
+      content="boolean logic, AND, OR, XOR, NAND, NOR, XNOR, NOT, logic gates, truth table, interactive, circuit diagram"
     />
     <meta name="author" content="Boolean Logic Demo" />
-    <title>Enhanced Boolean Logic Demo</title>
+    <title>Boolean Logic Demonstrator</title>
+    
+    <!-- Performance optimization -->
+    <link rel="preload" href="style.css" as="style" />
+    <link rel="preload" href="script.js" as="script" />
+    
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    
+    <!-- PWA Support -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#2979ff" />
+    
+    <!-- Social Media Meta Tags -->
+    <meta property="og:title" content="Boolean Logic Demonstrator" />
+    <meta property="og:description" content="An interactive tool for learning and visualizing Boolean logic operations through circuit diagrams and truth tables" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://boolean-demo.netlify.app" />
+    <meta property="og:image" content="https://boolean-demo.netlify.app/favicon.svg" />
+    
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Boolean Logic Demonstrator" /> 
+    <meta name="twitter:description" content="Interactive tool for learning Boolean logic operations" />
+    <meta name="twitter:image" content="https://boolean-demo.netlify.app/favicon.svg" />
+    
     <link rel="stylesheet" href="style.css" />
-    <!-- Add Highlight.js for code formatting -->
+    <!-- Add Highlight.js for code formatting with performance optimizations -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css"
+      media="print" onload="this.media='all'"
     />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/javascript.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/cpp.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/javascript.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/python.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/cpp.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/java.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/ruby.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/swift.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/go.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/rust.min.js" defer></script>
   </head>
   <body>
+    <!-- Loading indicator -->
+    <div id="loadingIndicator" class="loading-indicator"></div>
+    
     <div class="container" role="main">
       <h1>Boolean Logic Demonstrator</h1>
-      <p class="app-summary"></p>
+      <p class="app-summary">Interactive tool for learning and visualizing Boolean logic operations through circuit diagrams and truth tables.</p>
       <p>
         Click the switches (A & B), select an operation, and observe the light,
-        truth table, and descriptions.
+        truth table, and descriptions. Try clicking on rows in the truth table to set switch positions automatically.
       </p>
 
       <!-- Operation Selection -->
@@ -213,7 +246,10 @@
       </div>
       <!-- Add instructions about interactive elements -->
       <p class="interaction-hint">
-        <i class="hint-icon">💡</i> Click the switches above to toggle on/off.
+        <i class="hint-icon">💡</i> Click the switches above to toggle on/off (or press Tab to focus and Space to toggle).
+      </p>
+      <p class="interaction-hint">
+        <i class="hint-icon">⌨️</i> Keyboard users: Use arrow keys to navigate between operations when one is focused.
       </p>
 
       <!-- Status Display -->
@@ -266,6 +302,10 @@
             <button id="pythonTabBtn" class="tab-btn">Python</button>
             <button id="cppTabBtn" class="tab-btn">C++</button>
             <button id="javaTabBtn" class="tab-btn">Java</button>
+            <button id="rubyTabBtn" class="tab-btn">Ruby</button>
+            <button id="swiftTabBtn" class="tab-btn">Swift</button>
+            <button id="goTabBtn" class="tab-btn">Go</button>
+            <button id="rustTabBtn" class="tab-btn">Rust</button>
           </div>
           <div class="code-content">
             <pre><code id="jsCode" class="language-javascript">
@@ -280,17 +320,46 @@
             <pre><code id="javaCode" class="language-java">
 // Java code example will appear here
             </code></pre>
+            <pre><code id="rubyCode" class="language-ruby">
+# Ruby code example will appear here
+            </code></pre>
+            <pre><code id="swiftCode" class="language-swift">
+// Swift code example will appear here
+            </code></pre>
+            <pre><code id="goCode" class="language-go">
+// Go code example will appear here
+            </code></pre>
+            <pre><code id="rustCode" class="language-rust">
+// Rust code example will appear here
+            </code></pre>
           </div>
         </div>
       </div>
 
       <footer class="footer">
         <p>
-          © 2025 |
-          <a href="https://github.com/icjia/boolean-logic-demo" target="_blank"
+          © <span id="currentYear">2025</span> |
+          <a href="https://github.com/icjia/boolean-logic-demo" target="_blank" rel="noopener noreferrer"
             >View on GitHub</a
-          >
+          > |
+          <button id="keyboardHelpBtn" class="text-button" aria-label="Show keyboard shortcuts">
+            Keyboard Shortcuts
+          </button>
         </p>
+        <div id="keyboardHelpModal" class="modal" role="dialog" aria-labelledby="keyboardHelpTitle" aria-hidden="true">
+          <div class="modal-content">
+            <span class="close-button" aria-label="Close">&times;</span>
+            <h3 id="keyboardHelpTitle">Keyboard Shortcuts</h3>
+            <div class="shortcuts-grid">
+              <div><kbd>1</kbd> Toggle switch A</div>
+              <div><kbd>2</kbd> Toggle switch B</div>
+              <div><kbd>t</kbd> Truth table mode</div>
+              <div><kbd>a</kbd> Auto demo</div>
+              <div><kbd>Space</kbd> Toggle focused switch</div>
+              <div><kbd>Arrow keys</kbd> Navigate operation options</div>
+            </div>
+          </div>
+        </div>
       </footer>
     </div>
     <!-- /container -->

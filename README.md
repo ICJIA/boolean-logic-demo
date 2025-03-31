@@ -13,7 +13,7 @@ https://boolean-demo.netlify.app
 - Eight different logical operations (AND, OR, XOR, NAND, NOR, XNOR, NOT A, NOT B)
 - Live truth table with highlighted current state
 - Interactive circuit diagram that visualizes the current operation
-- Code examples in JavaScript, Python, C++, and Java with syntax highlighting
+- Code examples in JavaScript, Python, C++, Java, Ruby, Swift, Go, and Rust with syntax highlighting
 - Detailed operation descriptions and contextual explanations
 - Responsive design that works on desktop and mobile devices
 - Dark mode support

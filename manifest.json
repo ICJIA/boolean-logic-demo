@@ -1,0 +1,16 @@
+{
+  "name": "Boolean Logic Demonstrator",
+  "short_name": "Boolean Logic",
+  "description": "An interactive tool for learning and visualizing Boolean logic operations",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2979ff",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
